@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anagram Service</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .left-section,
+        .right-section {
+            width: 50%;
+            padding: 20px;
+        }
+
+        .left-section {
+            border-right: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left-section">
+        <h2>Checks if two texts are anagrams of each other</h2>
+        <input type="text" id="word1" placeholder="First word">
+        <input type="text" id="word2" placeholder="Second word">
+        <button onclick="sendLeftSection()">Check</button>
+        <button onclick="cleanLeftSection()">Clean</button>
+        <p id="areAnagramsResponse"></p>
+    </div>
+
+    <div class="right-section">
+        <h2>Find all anagrams</h2>
+        <input type="text" id="word" placeholder="Word">
+        <button onclick="sendRightSection()">Find</button>
+        <button onclick="cleanRightSection()">Clean</button>
+        <p id="anagramList"></p>
+    </div>
+
+</div>
+
+<script>
+    function sendLeftSection() {
+        var word1 = document.getElementById('word1').value;
+        var word2 = document.getElementById('word2').value;
+
+        if (!word1 || !word2) {
+            document.getElementById('areAnagramsResponse').innerText = 'Incomplete inputs';
+            return;
+        }
+
+        fetch('areAnagrams?word1=' + word1 + '&word2=' + word2)
+            .then(response => response.text())
+            .then(data => {
+                if (data === "true") {
+                    document.getElementById('areAnagramsResponse').innerText = "Words are anagrams";
+                } else {
+                    document.getElementById('areAnagramsResponse').innerText = "Words are not anagrams";
+                }
+            });
+    }
+
+    function sendRightSection() {
+        var word = document.getElementById('word').value;
+
+        if (!word) {
+            document.getElementById('anagramList').innerText = 'Incomplete inputs';
+            return;
+        }
+
+        fetch('getAllAnagrams?word=' + word)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('anagramList').innerText = 'Anagrams are: ' + data.join(', ');
+            });
+    }
+
+    function cleanLeftSection() {
+        document.getElementById('word1').value = '';
+        document.getElementById('word2').value = '';
+        document.getElementById('areAnagramsResponse').innerText = '';
+    }
+
+    function cleanRightSection() {
+        document.getElementById('word').value = '';
+        document.getElementById('anagramList').innerText = '';
+    }
+</script>
+
+</body>
+</html>
