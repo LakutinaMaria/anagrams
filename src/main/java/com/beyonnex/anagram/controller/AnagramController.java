@@ -17,8 +17,8 @@ public class AnagramController {
     private AnagramService anagramService;
 
     @GetMapping("/areAnagrams")
-    public boolean areAnagrams(@RequestParam(required = false) String word1,
-                               @RequestParam(required = false) String word2) {
+    public boolean areAnagrams(@RequestParam String word1,
+                               @RequestParam String word2) {
         log.info("AnagramController: Received request to check if {} and {} are anagrams.", word1, word2);
         boolean result = anagramService.areAnagrams(word1, word2);
         log.info("AnagramController: {} and {} are anagrams: {}", word1, word2, result);
@@ -27,7 +27,7 @@ public class AnagramController {
     }
 
     @GetMapping("/getAllAnagrams")
-    public Set<String> getAllAnagrams(@RequestParam(required = false) String word) {
+    public Set<String> getAllAnagrams(@RequestParam String word) {
         log.info("AnagramController: Received request to get all anagrams of {}.", word);
         Set<String> anagrams = anagramService.getAllAnagrams(word);
         log.info("AnagramController: Anagrams for {}: {}", word, anagrams);

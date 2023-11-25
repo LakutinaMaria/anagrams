@@ -55,7 +55,7 @@ public class AnagramService {
 
     private void createOrUpdateAnagramHistory(String word1, String word2) {
         String sortedWord = sortString(word1);
-        AnagramHistory anagramHistory = getOrCreateAnagramHistory(sortedWord);
+        AnagramHistory anagramHistory = retrieveOrCreateAnagramHistory(sortedWord);
 
         Set<String> anagrams = getAnagrams(anagramHistory);
 
@@ -69,7 +69,7 @@ public class AnagramService {
         return new String(charArray);
     }
 
-    private AnagramHistory getOrCreateAnagramHistory(String sortedWord) {
+    private AnagramHistory retrieveOrCreateAnagramHistory(String sortedWord) {
         return anagramHistoryRepository.findByBaseWord(sortedWord)
                 .orElseGet(() -> anagramHistoryRepository.save(new AnagramHistory(sortedWord)));
     }
